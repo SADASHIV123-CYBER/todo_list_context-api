@@ -1,11 +1,26 @@
 import { useContext } from "react";
-import AddTodo from "../AddTodo/AddTodo";
+// import AddTodo from "../AddTodo/AddTodo";
 import Todo from "../Todo/Todo";
 import TodoContext from "../../context/todoContext";
+import TodoDispatchContext from "../../context/todoDispatchContext";
 
 function TodoList() {
+    const {list} = useContext(TodoContext);
+    const {dispatch} = useContext(TodoDispatchContext)
 
-    const {list, setList} = useContext(TodoContext)
+
+    function onFinished(todo, isFinished) {
+        dispatch({type: 'finish_todo', payload: {todo, isFinished: isFinished} })
+    }
+
+    function onDelete(todo) {
+        dispatch({type: 'delete_todo', payload: {todo} })
+    }
+
+    function onEdit(todo, todoText) {
+        dispatch({type: 'edit_todo', payload: {todo, todoText} })
+    }
+
     
     return(
         <div>
@@ -15,30 +30,10 @@ function TodoList() {
                                 id={todo.id}
                                 todoData={todo.todoData} 
                                 isFinished={todo.finished} 
-                                changeFinished={(isFinished) => {
+                                changeFinished={(isFinished) => onFinished(todo, isFinished)}
+                                onDelete={() => onDelete(todo)}
 
-                                    const updatedList = list.map(t => {
-                                        if(t.id == todo.id) {
-                                            todo.finished = isFinished
-                                        }
-                                        return t;
-                                    });
-                                    setList(updatedList);
-                                }}
-                                onDelete={() => {
-                                    const updatedList = list.filter(t => t.id != todo.id);
-                                    setList(updatedList)
-                                }}
-
-                                onEdit={ (todoText) => {
-                                    const updatedList = list.map(t => {
-                                        if(t.id == todo.id) {
-                                            todo.todoData = todoText;
-                                        }
-                                        return t;
-                                    });
-                                    setList(updatedList);
-                                }}
+                                onEdit={(todoText) => onEdit(todo, todoText)}
                             />)}
         </div>
     )
