@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* ========== Cosmic Glow Animation ========== */
+@keyframes cosmic-glow {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+/* ========== Soft Pulsating Background ========== */
+@keyframes soft-pulse {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+}
+
+/* ========== Smooth Floating Animation ========== */
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ========== Custom Animation Delays ========== */
+.delay-1000 { animation-delay: 1000ms; }
+.delay-2000 { animation-delay: 2000ms; }
+
+/* ========== Apply Tailwind Utility Classes ========== */
+body {
+    @apply text-slate-100 bg-gray-900;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ========== Background Animation ========== */
+.cosmic-background {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.cosmic-glow {
+    animation: cosmic-glow 6s infinite ease-in-out;
+}
+
+.soft-pulse {
+    animation: soft-pulse 5s infinite ease-in-out;
+}
+
+.floating {
+    animation: floating 6s infinite ease-in-out;
+}
+
+/* ========== Glowing Borders for Buttons & Cards ========== */
+.glow-border {
+    border: 2px solid transparent;
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    background-image: linear-gradient(to right, #1e293b, #1e293b),
+                      linear-gradient(to right, cyan, blue);
+    transition: all 0.3s ease-in-out;
+}
+
+.glow-border:hover {
+    background-image: linear-gradient(to right, #1e293b, #1e293b),
+                      linear-gradient(to right, cyan, purple);
+    box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);
+}
+
+/* ========== Buttons with Neon Effects ========== */
+.neon-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.neon-button::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.2), transparent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.neon-button:hover::before {
+    opacity: 1;
+}
+
+/* ========== Cosmic Title Glow ========== */
+.title-glow {
+    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6), 
+                 0px 0px 20px rgba(0, 255, 255, 0.4);
+    animation: soft-pulse 3s infinite ease-in-out;
+}
+
+/* ========== Responsive Tweaks ========== */
+@media (max-width: 768px) {
+    .floating {
+        animation: floating 4s infinite ease-in-out;
+    }
+
+    .cosmic-background div {
+        filter: blur(60px);
+    }
+}
