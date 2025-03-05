@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import Todo from "../Todo/Todo";
 import TodoContext from "../../context/todoContext";
 import TodoDispatchContext from "../../context/todoDispatchContext";
@@ -6,6 +6,19 @@ import TodoDispatchContext from "../../context/todoDispatchContext";
 function TodoList() {
     const { list } = useContext(TodoContext);
     const { dispatch } = useContext(TodoDispatchContext);
+
+    // Load todos from localStorage when the component mounts
+    useEffect(() => {
+        const storedTodos = localStorage.getItem("todos");
+        if (storedTodos) {
+            dispatch({ type: "load_todos", payload: JSON.parse(storedTodos) });
+        }
+    }, [dispatch]);
+
+    // Save todos to localStorage whenever the list changes
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(list));
+    }, [list]);
 
     function onFinished(todo, isFinished) {
         dispatch({ type: "finish_todo", payload: { todo, isFinished } });

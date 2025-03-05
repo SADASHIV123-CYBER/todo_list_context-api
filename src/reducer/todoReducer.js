@@ -1,38 +1,38 @@
 function todoReducer(state, action) {
-    if(action.type == 'add_todo') {
-        let todoText = action.payload.todoText;
-        return [
-    ...state, {id: state.length + 1 ,todoData: todoText, finished: false }
+    let updatedList;
 
-        ]
-    }else if(action.type == 'edit_todo') {
-        let todo = action.payload.todo;
-        let todoText = action.payload.todoText;
-        const updatedList = state.map(t => {
-            if(t.id == todo.id) {
-                todo.todoData = todoText;
-            }
-            return t;
-        });
-        return updatedList;
-    }else if(action.type == 'delete_todo') {
-        let todo = action.payload.todo;
-        const updatedList = state.filter(t => t.id != todo.id);
-        return updatedList;
-    }else if(action.type == 'finish_todo') {
-        let todo = action.payload.todo;
-        let isFinished = action.payload.isFinished
-        const updatedList = state.map(t => {
-            if(t.id == todo.id) {
-                todo.finished = isFinished
-            }
-            return t;
-        });
-        return updatedList;
-    } else {
-        return state;
+    switch (action.type) {
+        case 'add_todo':
+            let todoText = action.payload.todoText;
+            updatedList = [...state, { id: state.length + 1, todoData: todoText, finished: false }];
+            break;
+
+        case 'edit_todo':
+            updatedList = state.map(t => 
+                t.id === action.payload.todo.id ? { ...t, todoData: action.payload.todoText } : t
+            );
+            break;
+
+        case 'delete_todo':
+            updatedList = state.filter(t => t.id !== action.payload.todo.id);
+            break;
+
+        case 'finish_todo':
+            updatedList = state.map(t => 
+                t.id === action.payload.todo.id ? { ...t, finished: action.payload.isFinished } : t
+            );
+            break;
+
+        case 'load_todos': 
+            return action.payload;
+
+        default:
+            return state;
     }
-    
+
+ 
+    localStorage.setItem("todos", JSON.stringify(updatedList));
+    return updatedList;
 }
 
 export default todoReducer;
