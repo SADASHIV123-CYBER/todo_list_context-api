@@ -2,6 +2,7 @@ import { useEffect, useContext } from "react";
 import Todo from "../Todo/Todo";
 import TodoContext from "../../context/todoContext";
 import TodoDispatchContext from "../../context/todoDispatchContext";
+import { DELETE_TODO, EDIT_TODO, FINISH_TODO, LOAD_TODOS } from "../../reducer/actionType";
 
 function TodoList() {
     const { list } = useContext(TodoContext);
@@ -11,7 +12,7 @@ function TodoList() {
     useEffect(() => {
         const storedTodos = localStorage.getItem("todos");
         if (storedTodos) {
-            dispatch({ type: "load_todos", payload: JSON.parse(storedTodos) });
+            dispatch({ type: LOAD_TODOS, payload: JSON.parse(storedTodos) });
         }
     }, [dispatch]);
 
@@ -21,15 +22,15 @@ function TodoList() {
     }, [list]);
 
     function onFinished(todo, isFinished) {
-        dispatch({ type: "finish_todo", payload: { todo, isFinished } });
+        dispatch({ type: FINISH_TODO, payload: { todo, isFinished } });
     }
 
     function onDelete(todo) {
-        dispatch({ type: "delete_todo", payload: { todo } });
+        dispatch({ type: DELETE_TODO, payload: { todo } });
     }
 
     function onEdit(todo, todoText) {
-        dispatch({ type: "edit_todo", payload: { todo, todoText } });
+        dispatch({ type: EDIT_TODO, payload: { todo, todoText } });
     }
 
     return (

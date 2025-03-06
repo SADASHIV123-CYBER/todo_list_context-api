@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import TodoDispatchContext from "../../context/todoDispatchContext";
+import { ADD_TODO } from "../../reducer/actionType";
 
 function AddTodo() {
     const [inputText, setInputText] = useState('');
@@ -24,7 +25,7 @@ function AddTodo() {
 
                 <button 
                     onClick={() => {
-                        dispatch({ type: 'add_todo', payload: { todoText: inputText } })
+                        dispatch({ type: ADD_TODO, payload: { todoText: inputText } })
                         setInputText('')
                     }}
                     disabled={!inputText.trim()}
